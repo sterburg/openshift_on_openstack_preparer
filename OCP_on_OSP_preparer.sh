@@ -187,12 +187,12 @@ neutron security-group-rule-create master-sg \
 neutron security-group-rule-create master-sg \
 --protocol tcp --port-range-min 10250 --port-range-max 10250 \
 --remote-group-id master-sg
-for PORT in 8443 8444 8053 4789 2379 10255 9000 2380 5404 5405 2224 24224
+for PORT in 8443 8053 2379 10250 9000 4001 2380
 do
 neutron security-group-rule-create master-sg \
 --protocol tcp --port-range-min $PORT --port-range-max $PORT
 done
-for PORT in 10255 24224
+for PORT in 8053 4789 24224
 do
 neutron security-group-rule-create master-sg \
 --protocol udp --port-range-min $PORT --port-range-max $PORT
@@ -203,13 +203,13 @@ neutron security-group-rule-create infranode-sg --protocol icmp
 neutron security-group-rule-create infranode-sg \
 --protocol tcp --port-range-min 22 --port-range-max 22 \
 --remote-group-id bastion-sg
-for PORT in 80 443 4789 10255
+for PORT in 80 443 10250
 do
 neutron security-group-rule-create infranode-sg \
 --protocol tcp --port-range-min $PORT --port-range-max $PORT
 done
 neutron security-group-rule-create infranode-sg \
---protocol udp --port-range-min 10255 --port-range-max 10255 \
+--protocol udp --port-range-min 4789 --port-range-max 4789 \
 --remote-group-id master-sg
 echo -e "\n##### Creating security group for appnodes\n"
 neutron security-group-create appnode-sg
@@ -218,13 +218,13 @@ neutron security-group-rule-create appnode-sg \
 --protocol tcp --port-range-min 22 --port-range-max 22 \
 --remote-group-id bastion-sg
 neutron security-group-rule-create appnode-sg \
---protocol tcp --port-range-min 10255 --port-range-max 10255 \
+--protocol tcp --port-range-min 10250 --port-range-max 10250 \
 --remote-group-id master-sg
 neutron security-group-rule-create appnode-sg \
---protocol udp --port-range-min 10255 --port-range-max 10255 \
+--protocol udp --port-range-min 10250 --port-range-max 10250 \
 --remote-group-id master-sg
 neutron security-group-rule-create appnode-sg \
---protocol tcp --port-range-min 4789 --port-range-max 4789
+--protocol udp --port-range-min 4789 --port-range-max 4789
 fi
 
 ##### OpenShift instances creation
